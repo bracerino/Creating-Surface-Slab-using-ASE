@@ -66,6 +66,9 @@ str = Structure.from_file(surface_output_file_name+'.cif')
 str = str.get_reduced_structure()
 ciff = AseAtomsAdaptor.get_atoms(str)
 
+positions = ciff.get_positions()
+min_z = np.min(positions[:, 2])
+
 fixed_indices = [atom.index for atom in ciff if atom.position[2] < min_z + thickness_to_fix]
 constraint = FixAtoms(indices=fixed_indices)
 ciff.set_constraint(constraint)
